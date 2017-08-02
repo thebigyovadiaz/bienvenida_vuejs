@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="description" content="Página web desarrollada con Bootstrap - Vue.js 2 que muestra una bienvenida">
+    <meta name="author" content="Yovanny Diaz">
+    <link rel="icon" href="">
+    <title>Bienvenida con Vue.js 2</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="css/animate.css" rel="stylesheet">
+    <!-- Style CSS -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- VueJS -->
+    <script src="js/vue.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div id="app" class="container">
+      <div class="col-md-8 col-md-offset-2">
+        <div v-if="envio" :style="pTop">
+          <div class="jumbotron">
+            <h2 class="text-center">{{ saludo }}, {{ full_name }}.</h2>
+            <h3 class="text-center">Esto es <span class="text-success">Vue.js 2</span> + <span :style="{'color': 'purple'}">Bootstrap 3</span></h3>
+
+          </div>
+          <button class="btn btn-danger pull-right" @click.prevent="regresar()">Regresar</button>
+        </div>
+
+        <template v-else>
+          <h2 class="text-center text-info">Ingresa los siguientes datos.</h2>
+          <form @submit.prevent="saludar()" :style="pTop">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" class="form-control" v-model="name">
+            </div>
+
+            <div class="form-group">
+              <label>Apellido</label>
+              <input type="text" class="form-control" v-model="lastname">
+            </div>
+
+            <div class="radio">
+              <h4> 
+              <label>
+                <input type="radio" v-model="gender" value="M">
+                Hombre
+              </label>
+              <label>
+                <input type="radio" v-model="gender" value="F">
+                Mujer
+              </label>
+              </h4>
+            </div>
+            <button class="btn btn-primary pull-right" v-show="name || lastname">Enviar</button>
+          </form>
+        </template>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          name: '',
+          lastname: '',
+          full_name: '',
+          gender: 'M',
+          envio: false
+        },
+        computed: {
+          pTop: function() {
+            return {'padding-top': '25px'};
+          },
+          saludo: function() {
+            return this.gender == 'M' ? 'Bienvenido' : 'Bienvenida';
+          }
+        },
+        methods: {
+          saludar: function() {
+            this.envio = true;
+            this.full_name = this.name + ' ' + this.lastname;
+          },
+          regresar: function() {
+            this.envio = false;
+            this.name = '';
+            this.lastname = '';
+          }
+        }
+      });
+    </script>    
+  </body>
+</html>
